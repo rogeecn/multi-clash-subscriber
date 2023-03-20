@@ -3,6 +3,7 @@ package config
 import (
 	"bytes"
 	"os"
+	"strings"
 
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
@@ -89,7 +90,7 @@ func (c *Config) Generate() (*Clash, error) {
 	}
 
 	for _, line := range lines {
-		clash.Rules = append(clash.Rules, string(line))
+		clash.Rules = append(clash.Rules, strings.TrimSpace(string(line)))
 	}
 
 	return clash, nil

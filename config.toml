@@ -1,24 +1,68 @@
 [App]
 Port=8899
-TestURL="http://www.gstatic.com/generate_204"
+Rule="rule.conf"
 
-[[Source]]
+[Common]
+Port=7890
+SocksPort=7891
+AllowLan= false
+Mode="rule"
+LogLevel= "info"
+ExternalController="127.0.0.1:9090"
+
+[Common.Experimental]
+IgnoreResolveFail=true
+
+
+
+[[Subscribe]]
 Name="Walless"
 SubscribeURL="https://sub.wl-sub1.com/api/v1/client/subscribe?token=f6bf7db5bfe5e2bb3ca809c68ed1d3a0&flag=clash"
-IgnoreNodes = ["菲律宾100倍扣流量"]
+IgnoreChars = ["菲律宾100倍扣流量"]
 FilterChars=["{emoji}","{space}"]
 
 
+
 [[Groups]]
-Name="国外流量"
+Name="自动选择"
+Type="url-test"
+Proxies=[]
+TestURL = "http://www.gstatic.com/generate_204"
+Interval = 3600
+AppendNodes=true
+
+[[Groups]]
+Name="手动切换"
 Type="select"
 Proxies=[]
 AppendNodes=true
 
+[[Groups]]
+Name="全球直连"
+Type="select"
+Proxies=["DIRECT"]
+AppendNodes=false
 
 [[Groups]]
-Name="国外流量"
-Type="url-test"
-Proxies=[]
-TestURL = "http://www.gstatic.com/generate_204"
+Name="全球拦截"
+Type="select"
+Proxies=["REJECT"]
+AppendNodes=false
+
+[[Groups]]
+Name="应用净化"
+Type="select"
+Proxies=["REJECT","DIRECT"]
 AppendNodes=true
+
+[[Groups]]
+Name="国外媒体"
+Type="select"
+Proxies=["手动切换","自动选择"]
+AppendNodes=true
+
+[[Groups]]
+Name="漏网之鱼"
+Type="select"
+Proxies=["全球直连","自动选择"]
+AppendNodes=false

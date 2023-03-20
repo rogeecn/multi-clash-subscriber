@@ -8,7 +8,7 @@ import (
 
 func TestSource_download(t *testing.T) {
 	type fields struct {
-		source *config.Source
+		subscribe *config.Subscribe
 	}
 	tests := []struct {
 		name    string
@@ -19,9 +19,9 @@ func TestSource_download(t *testing.T) {
 		{
 			name: "test download",
 			fields: fields{
-				source: &config.Source{
-					Name:         "test",
-					SubscribeURL: "https://sub.wl-sub1.com/api/v1/client/subscribe?token=f6bf7db5bfe5e2bb3ca809c68ed1d3a0&flag=clash",
+				subscribe: &config.Subscribe{
+					Name: "test",
+					URL:  "https://sub.wl-sub1.com/api/v1/client/subscribe?token=f6bf7db5bfe5e2bb3ca809c68ed1d3a0&flag=clash",
 				},
 			},
 			want:    nil,
@@ -30,9 +30,9 @@ func TestSource_download(t *testing.T) {
 		{
 			name: "test download",
 			fields: fields{
-				source: &config.Source{
-					Name:         "test",
-					SubscribeURL: "https://sub.wl-sub1.com/api/v1/client/subscribe?token=f6bf7db5bfe5e2bb3ca809c68ed1d3a0",
+				subscribe: &config.Subscribe{
+					Name: "test",
+					URL:  "https://sub.wl-sub1.com/api/v1/client/subscribe?token=f6bf7db5bfe5e2bb3ca809c68ed1d3a0",
 				},
 			},
 			want:    nil,
@@ -41,8 +41,8 @@ func TestSource_download(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := Source{
-				source: tt.fields.source,
+			c := Subscribe{
+				subscribe: tt.fields.subscribe,
 			}
 			_, err := c.download()
 			if (err != nil) != tt.wantErr {
@@ -55,7 +55,7 @@ func TestSource_download(t *testing.T) {
 
 func TestSource_filterProxies(t *testing.T) {
 	type fields struct {
-		source *config.Source
+		subscribe *config.Subscribe
 	}
 	type args struct {
 		proxies []config.Proxy
@@ -69,11 +69,11 @@ func TestSource_filterProxies(t *testing.T) {
 		{
 			name: "test filterProxies",
 			fields: fields{
-				source: &config.Source{
-					Name:         "test",
-					SubscribeURL: "https://sub.wl-sub1.com/api/v1/client/subscribe?token=f6bf7db5bfe5e2bb3ca809c68ed1d3a0&flag=clash",
-					FilterChars:  []string{"{emoji}", "{space}"},
-					IgnoreNodes:  []string{"abc"},
+				subscribe: &config.Subscribe{
+					Name:        "test",
+					URL:         "https://sub.wl-sub1.com/api/v1/client/subscribe?token=f6bf7db5bfe5e2bb3ca809c68ed1d3a0&flag=clash",
+					FilterChars: []string{"{emoji}", "{space}"},
+					IgnoreChars: []string{"abc"},
 				},
 			},
 			args: args{
@@ -88,11 +88,11 @@ func TestSource_filterProxies(t *testing.T) {
 		{
 			name: "test filterProxies",
 			fields: fields{
-				source: &config.Source{
-					Name:         "test",
-					SubscribeURL: "https://sub.wl-sub1.com/api/v1/client/subscribe?token=f6bf7db5bfe5e2bb3ca809c68ed1d3a0&flag=clash",
-					FilterChars:  []string{"{emoji}", "{space}"},
-					IgnoreNodes:  []string{"abc"},
+				subscribe: &config.Subscribe{
+					Name:        "test",
+					URL:         "https://sub.wl-sub1.com/api/v1/client/subscribe?token=f6bf7db5bfe5e2bb3ca809c68ed1d3a0&flag=clash",
+					FilterChars: []string{"{emoji}", "{space}"},
+					IgnoreChars: []string{"abc"},
 				},
 			},
 			args: args{
@@ -115,8 +115,8 @@ func TestSource_filterProxies(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := Source{
-				source: tt.fields.source,
+			c := Subscribe{
+				subscribe: tt.fields.subscribe,
 			}
 			if got := c.filterProxies(tt.args.proxies); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Source.filterProxies() = %v, want %v", got, tt.want)

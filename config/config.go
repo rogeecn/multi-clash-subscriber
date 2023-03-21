@@ -9,6 +9,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+var C *Config
+
 type Config struct {
 	App struct {
 		Port  int

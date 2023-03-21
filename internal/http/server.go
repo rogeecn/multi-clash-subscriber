@@ -17,7 +17,8 @@ func Serve(config *config.Config) error {
 	service.GET("/rules", func(c *gin.Context) {
 		for _, s := range config.Subscribes {
 			log.Println("downloading source ", s.URL)
-			if err := source.New(&s).Parse(); err != nil {
+
+			if err := source.New(s).Parse(); err != nil {
 				log.Println("err: ", err)
 				c.String(http.StatusBadGateway, "text/html;charset=UTF-8", err.Error())
 				continue
@@ -37,8 +38,10 @@ func Serve(config *config.Config) error {
 			return
 		}
 
-		c.Data(http.StatusOK, " text/html; charset=UTF-8", b)
-
+		fileName := "FullClash"
+		c.Header("Content-Disposition", "attachment; filename="+fileName)
+		c.Header("Accept-Length", fmt.Sprintf("%d", len(b)))
+		c.Data(http.StatusOK, "application/text/plain", b)
 	})
 
 	service.GET("/tunnels", func(c *gin.Context) {

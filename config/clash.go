@@ -3,7 +3,8 @@ package config
 import "gopkg.in/yaml.v2"
 
 type Clash struct {
-	Port               int          `yaml:"port"`
+	MixedPort          int          `yaml:"mixed-port,omitempty"`
+	Port               int          `yaml:"port,omitempty"`
 	SocksPort          int          `yaml:"socks-port,omitempty"`
 	AllowLan           bool         `yaml:"allow-lan,omitempty"`
 	Mode               string       `yaml:"mode"`
@@ -20,8 +21,8 @@ type ProxyGroup struct {
 	Name     string   `yaml:"name"`
 	Type     string   `yaml:"type"`
 	Proxies  []string `yaml:"proxies"`
-	URL      string   `yaml:"url"`
-	Interval int      `yaml:"interval"`
+	URL      string   `yaml:"url,omitempty"`
+	Interval int      `yaml:"interval,omitempty"`
 }
 
 type Proxy struct {
@@ -30,8 +31,10 @@ type Proxy struct {
 	Server   string `yaml:"server"`
 	Port     int    `yaml:"port"`
 	Cipher   string `yaml:"cipher"`
-	Password string `yaml:"password"`
+	Password string `yaml:"password,omitempty"`
 	UDP      bool   `yaml:"udp"`
+	UUID     string `yaml:"uuid,omitempty"`
+	AlterId  *int   `yaml:"alterId,omitempty"`
 }
 
 type DNS struct {

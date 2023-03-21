@@ -15,6 +15,7 @@ type Config struct {
 		Rule string
 	}
 	Common struct {
+		MixedPort          int
 		Port               int
 		SocksPort          int
 		AllowLan           bool
@@ -23,7 +24,7 @@ type Config struct {
 		ExternalController string
 		Experimental       Experimental
 	}
-	Subscribes []Subscribe
+	Subscribes []*Subscribe
 	Groups     []Group
 }
 
@@ -77,8 +78,9 @@ func (c *Config) Generate() (*Clash, error) {
 			Type: group.Type,
 		}
 
+		proxyGroup.Proxies = group.Proxies
 		if group.AppendNodes {
-			proxyGroup.Proxies = append(group.Proxies, proxyNames...)
+			proxyGroup.Proxies = append(proxyGroup.Proxies, proxyNames...)
 		}
 
 		if group.Type == "url-test" {

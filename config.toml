@@ -3,8 +3,7 @@ Port=8899
 Rule="rule.conf"
 
 [Common]
-Port=7890
-SocksPort=7891
+MixedPort=7890
 AllowLan= false
 Mode="rule"
 LogLevel= "info"
@@ -15,12 +14,11 @@ IgnoreResolveFail=true
 
 
 
-[[Subscribe]]
+[[Subscribes]]
 Name="Walless"
-SubscribeURL="https://sub.wl-sub1.com/api/v1/client/subscribe?token=f6bf7db5bfe5e2bb3ca809c68ed1d3a0&flag=clash"
-IgnoreChars = ["菲律宾100倍扣流量"]
+URL="xxxx"
+IgnoreChars = ["菲律宾100倍扣流量","阿根廷"]
 FilterChars=["{emoji}","{space}"]
-
 
 
 [[Groups]]

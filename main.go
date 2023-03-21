@@ -1,7 +1,28 @@
 package main
 
-import "multi-clash-subscriber/cmd"
+import (
+	"log"
+	"multi-clash-subscriber/config"
+	"multi-clash-subscriber/internal/http"
+	"os"
+
+	"github.com/spf13/viper"
+)
 
 func main() {
-	cmd.Execute()
+	viper.SetConfigType("toml")
+	wd, _ := os.Getwd()
+	viper.AddConfigPath(wd)
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatal("1.", err)
+	}
+
+	var c config.Config
+	if err := viper.Unmarshal(&c); err != nil {
+		log.Fatal("2.", err)
+	}
+
+	if err := http.Serve(&c); err != nil {
+		log.Fatal("3.", err)
+	}
 }

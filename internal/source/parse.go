@@ -1,6 +1,7 @@
 package source
 
 import (
+	"fmt"
 	"log"
 	"multi-clash-subscriber/config"
 	"multi-clash-subscriber/utils"
@@ -33,12 +34,25 @@ func (c *Subscribe) Parse() error {
 	return nil
 }
 
+func (c *Subscribe) parseURL(str string) string {
+	u, err := url.Parse(str)
+	if err != nil {
+		return str
+	}
+
+	query := u.Query()
+	query.Set("flag", "clash")
+	u.RawQuery = query.Encode()
+	return u.String()
+}
+
 // Download the file from the url
 func (c *Subscribe) download() (*config.Clash, error) {
 	client := req.C()
 	// client.DevMode()
+	url := c.parseURL(c.subscribe.URL)
 
-	req, err := client.R().Get(c.subscribe.URL)
+	req, err := client.R().Get(url)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to download the file: %s", c.subscribe.URL)
 	}
@@ -71,21 +85,10 @@ func (c *Subscribe) parseUserInfo(value string) {
 		return
 	}
 
-	if item, ok := val["upload"]; ok && len(item) > 1 {
-		c.subscribe.UserInfo.Upload, _ = strconv.Atoi(item[0])
-	}
-
-	if item, ok := val["download"]; ok && len(item) > 1 {
-		c.subscribe.UserInfo.Download, _ = strconv.Atoi(item[0])
-	}
-
-	if item, ok := val["total"]; ok && len(item) > 1 {
-		c.subscribe.UserInfo.Total, _ = strconv.Atoi(item[0])
-	}
-
-	if item, ok := val["expire"]; ok && len(item) > 1 {
-		c.subscribe.UserInfo.Expire, _ = strconv.Atoi(item[0])
-	}
+	c.subscribe.UserInfo.Upload, _ = strconv.Atoi(val.Get("upload"))
+	c.subscribe.UserInfo.Download, _ = strconv.Atoi(val.Get("download"))
+	c.subscribe.UserInfo.Total, _ = strconv.Atoi(val.Get("total"))
+	c.subscribe.UserInfo.Expire, _ = strconv.Atoi(val.Get("expire"))
 }
 
 // filter proxies by config rule
@@ -111,6 +114,7 @@ func (c *Subscribe) filterProxies(proxies []config.Proxy) []config.Proxy {
 			}
 		}
 
+		proxy.Name = fmt.Sprintf("[%s]%s", c.subscribe.Name, proxy.Name)
 		if !match {
 			newProxies = append(newProxies, proxy)
 		}

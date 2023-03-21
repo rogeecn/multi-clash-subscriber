@@ -38,6 +38,7 @@ type Group struct {
 	TestURL     string
 	Interval    int
 	AppendNodes bool
+	Rules       []string
 }
 
 type Subscribe struct {

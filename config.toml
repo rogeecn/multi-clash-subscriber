@@ -41,12 +41,22 @@ Name="全球直连"
 Type="select"
 Proxies=["DIRECT"]
 AppendNodes=false
+Rules=[
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/direct.txt",
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/private.txt",
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/apple.txt",
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/icloud.txt",
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/lancidr.txt",
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/cncidr.txt",
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/applications.txt"
+]
 
 [[Groups]]
 Name="全球拦截"
 Type="select"
 Proxies=["REJECT"]
 AppendNodes=false
+Rules=["https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/reject.txt"]
 
 [[Groups]]
 Name="应用净化"
@@ -55,10 +65,17 @@ Proxies=["REJECT","DIRECT"]
 AppendNodes=true
 
 [[Groups]]
-Name="国外媒体"
+Name="出国专用"
 Type="select"
-Proxies=["手动切换","自动选择"]
+Proxies=["自动选择","手动切换"]
 AppendNodes=true
+Rules=[
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/proxy.txt",
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/gfw.txt",
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/greatfire.txt",
+    "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/telegramcidr.txt",
+
+]
 
 [[Groups]]
 Name="漏网之鱼"

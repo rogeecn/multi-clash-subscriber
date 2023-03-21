@@ -1,6 +1,7 @@
 [App]
 Port=8899
 Rule="rule.conf"
+Token="helloworld"
 
 [Common]
 MixedPort=7890

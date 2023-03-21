@@ -89,6 +89,8 @@ func (c *Subscribe) parseUserInfo(value string) {
 	c.subscribe.UserInfo.Download, _ = strconv.Atoi(val.Get("download"))
 	c.subscribe.UserInfo.Total, _ = strconv.Atoi(val.Get("total"))
 	c.subscribe.UserInfo.Expire, _ = strconv.Atoi(val.Get("expire"))
+	c.subscribe.UserInfo.Progress = float32(c.subscribe.UserInfo.Upload+c.subscribe.UserInfo.Download) / float32(c.subscribe.UserInfo.Total) * 100
+	c.subscribe.UserInfo.ExpireAt = time.Unix(int64(c.subscribe.UserInfo.Expire), 0).Format(time.DateOnly)
 }
 
 // filter proxies by config rule

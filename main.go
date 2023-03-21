@@ -11,8 +11,11 @@ import (
 
 func main() {
 	viper.SetConfigType("toml")
+	viper.SetConfigName("config.local")
+
 	wd, _ := os.Getwd()
 	viper.AddConfigPath(wd)
+
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatal("1.", err)
 	}

@@ -7,8 +7,8 @@ require (
 	github.com/imroc/req/v3 v3.33.1
 	github.com/jinzhu/copier v0.3.5
 	github.com/pkg/errors v0.9.1
-	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.15.0
+	golang.org/x/sync v0.1.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
@@ -27,7 +27,6 @@ require (
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/inconshreveable/mousetrap v1.0.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect

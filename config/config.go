@@ -11,8 +11,9 @@ import (
 
 type Config struct {
 	App struct {
-		Port int
-		Rule string
+		Port  int
+		Rule  string
+		Token string
 	}
 	Common struct {
 		MixedPort          int
@@ -48,6 +49,8 @@ type Subscribe struct {
 		Download int
 		Total    int
 		Expire   int
+		Progress float32
+		ExpireAt string
 	}
 }
 

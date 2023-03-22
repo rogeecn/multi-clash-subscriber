@@ -4,6 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"log"
 	"multi-clash-subscriber/internal/conf"
 
 	"github.com/pkg/errors"
@@ -27,7 +28,7 @@ var configCmd = &cobra.Command{
 		if err := conf.Generate(output); err != nil {
 			return errors.Wrap(err, "generate config failed")
 		}
-
+		log.Println("DONE")
 		return nil
 	},
 }

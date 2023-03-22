@@ -63,6 +63,10 @@ func (c *Subscribe) download() (*config.Clash, error) {
 		if c.subscribe.UserInfo.Expire < int(time.Now().Unix()) {
 			return nil, errors.New("expired subscribe: " + c.subscribe.Name)
 		}
+
+		if c.subscribe.UserInfo.Upload+c.subscribe.UserInfo.Download >= c.subscribe.UserInfo.Total {
+			return nil, errors.New("traffic used up to limit: " + c.subscribe.Name)
+		}
 	}
 
 	var result config.Clash

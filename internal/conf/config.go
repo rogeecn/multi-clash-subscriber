@@ -23,7 +23,7 @@ func GetYaml() ([]byte, error) {
 		})
 	}
 	if err := eg.Wait(); err != nil {
-		return nil, err
+		log.Println("get yaml has error: ", err)
 	}
 
 	clash, err := config.C.Generate()

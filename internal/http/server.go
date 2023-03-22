@@ -21,7 +21,7 @@ func Serve() error {
 	}
 
 	go func() {
-		ticker := time.NewTicker(time.Hour)
+		ticker := time.NewTicker(time.Minute * 10)
 		for range ticker.C {
 			if cacheData, err = conf.GetYaml(); err != nil {
 				log.Println("err: ", err)
@@ -40,9 +40,10 @@ func Serve() error {
 			return
 		}
 
-		fileName := "FullClash"
+		fileName := "MultiClash"
 		c.Header("Content-Disposition", "attachment; filename="+fileName)
 		c.Header("Accept-Length", fmt.Sprintf("%d", len(cacheData)))
+		c.Header("profile-update-interval", "1")
 		c.Data(http.StatusOK, "application/text/plain", cacheData)
 	})
 

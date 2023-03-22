@@ -1,0 +1,12 @@
+[Unit]
+Description=multi clash subscriber
+
+[Service]
+WorkingDirectory=/opt/services/multi-clash-subscriber
+ExecStart=/opt/services/multi-clash-subscriber/multi-clash-subscriber
+User=root
+Restart=on-failure
+Environment="GIN_MODE=release"
+
+[Install]
+WantedBy=multi-user.target

@@ -23,61 +23,59 @@ FilterChars=["{emoji}","{space}"]
 
 
 [[Groups]]
-Name="自动选择"
-Type="url-test"
-Proxies=[]
-TestURL = "http://www.gstatic.com/generate_204"
-Interval = 3600
-AppendNodes=true
+Name = "手动切换"
+Type = "select"
+Proxies = ["DIRECT"]
+AppendNodes = true
+
 
 [[Groups]]
-Name="手动切换"
-Type="select"
-Proxies=[]
-AppendNodes=true
-
-[[Groups]]
-Name="全球直连"
-Type="select"
-Proxies=["DIRECT"]
-AppendNodes=false
-Rules=[
-    "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/direct.txt|",
-    "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/private.txt|",
-    "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/apple.txt|",
-    "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/icloud.txt|",
-    "IP-CIDR|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/lancidr.txt|no-resolve",
-    "IP-CIDR|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/cncidr.txt|no-resolve",
-    "|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/applications.txt|"
-]
-
-[[Groups]]
-Name="全球拦截"
-Type="select"
-Proxies=["REJECT"]
-AppendNodes=false
-
-[[Groups]]
-Name="应用净化"
-Type="select"
-Proxies=["REJECT","DIRECT"]
-AppendNodes=true
-Rules=["DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/reject.txt|"]
-
-[[Groups]]
-Name="出国专用"
-Type="select"
-Proxies=["自动选择","手动切换"]
-AppendNodes=true
-Rules=[
+Name = "出国专用"
+Type = "select"
+Proxies = ["自动选择", "手动切换"]
+AppendNodes = false
+Rules = [
     "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/proxy.txt|",
     "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/gfw.txt|",
     "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/greatfire.txt|",
-    "IP-CIDR|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/telegramcidr.txt|no-resolve",
+    "IP-CIDR|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/telegramcidr.txt|",
 ]
 
 [[Groups]]
-Name="漏网之鱼"
-Type="select"
-Proxies=["全球直连","自动选择"]
-AppendNodes=false
+Name = "漏网之鱼"
+Type = "select"
+Proxies = ["直连", "自动选择", "手动切换"]
+AppendNodes = false
+
+[[Groups]]
+Name = "应用净化"
+Type = "select"
+Proxies = ["REJECT", "DIRECT", "自动选择", "手动切换"]
+AppendNodes = false
+Rules = [
+    "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/reject.txt|",
+]
+
+
+[[Groups]]
+Name = "直连"
+Type = "select"
+Proxies = ["DIRECT"]
+AppendNodes = false
+Rules = [
+    # "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/direct.txt|",
+    # "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/private.txt|",
+    # "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/apple.txt|",
+    # "DOMAIN|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/icloud.txt|",
+    "IP-CIDR|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/lancidr.txt|",
+    "IP-CIDR|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/cncidr.txt|",
+    "|https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/applications.txt|",
+]
+
+[[Groups]]
+Name = "自动选择"
+Type = "url-test"
+Proxies = []
+TestURL = "http://www.gstatic.com/generate_204"
+Interval = 3600
+AppendNodes = true

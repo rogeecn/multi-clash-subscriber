@@ -5,6 +5,7 @@ import (
 	"log"
 	"multi-clash-subscriber/config"
 	"multi-clash-subscriber/internal/conf"
+	"multi-clash-subscriber/internal/rule"
 	"net/http"
 	"text/template"
 	"time"
@@ -16,6 +17,11 @@ var cacheData []byte
 
 func Serve() error {
 	var err error
+	// generate rule
+	if err := rule.Generate(config.C.App.Rule); err != nil {
+		log.Fatal(err)
+	}
+
 	if cacheData, err = conf.GetYaml(); err != nil {
 		log.Fatal(err)
 	}
@@ -23,6 +29,12 @@ func Serve() error {
 	go func() {
 		ticker := time.NewTicker(time.Minute * 10)
 		for range ticker.C {
+			// generate rule
+			if err := rule.Generate(config.C.App.Rule); err != nil {
+				log.Println("err: ", err)
+				continue
+			}
+
 			if cacheData, err = conf.GetYaml(); err != nil {
 				log.Println("err: ", err)
 				continue

@@ -98,7 +98,11 @@ func (c *Config) Generate() (*Clash, error) {
 	}
 
 	for _, line := range lines {
-		clash.Rules = append(clash.Rules, strings.TrimSpace(string(line)))
+		lineStr := strings.TrimSpace(string(line))
+		if lineStr == "" {
+			continue
+		}
+		clash.Rules = append(clash.Rules, lineStr)
 	}
 
 	return clash, nil

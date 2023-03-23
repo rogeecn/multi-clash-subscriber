@@ -23,7 +23,6 @@ func Generate(output string) error {
 		for _, rule := range group.Rules {
 			log.Println("> rule: ", rule)
 			for s := range parse(rule, group.Name) {
-				log.Println(s)
 				_, _ = fd.WriteString(s + "\n")
 			}
 		}
@@ -63,7 +62,7 @@ func parse(rule, name string) <-chan string {
 		for _, r := range payload.Payload {
 			data := []string{prefix, r, name, suffix}
 			result := strings.Trim(strings.Join(data, ","), ",")
-			log.Println(">> GOT: ", result)
+			// log.Println(">> GOT: ", result)
 			ch <- result
 		}
 	}()

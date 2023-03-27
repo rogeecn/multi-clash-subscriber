@@ -34,7 +34,7 @@ type Proxy struct {
 	Password string `yaml:"password,omitempty"`
 	UDP      bool   `yaml:"udp"`
 	UUID     string `yaml:"uuid,omitempty"`
-	AlterId  int    `yaml:"alterId"`
+	AlterId  *int   `yaml:"alterId,omitempty"`
 }
 
 type DNS struct {

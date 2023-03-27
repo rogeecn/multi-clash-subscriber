@@ -26,19 +26,19 @@ func (v *Vmess) IntPort() int {
 	portInt, _ := strconv.Atoi(v.Port)
 	return portInt
 }
-func (v *Vmess) IntAid() int {
+func (v *Vmess) IntAid() *int {
 	switch (v.Aid).(type) {
 	case string:
 		portInt, _ := strconv.Atoi(v.Aid.(string))
-		return portInt
+		return &portInt
 	case int:
 		portInt := int(v.Aid.(int))
-		return portInt
+		return &portInt
 	case float64:
 		portInt := int(v.Aid.(float64))
-		return portInt
+		return &portInt
 	default:
-		return 0
+		return nil
 	}
 }
 

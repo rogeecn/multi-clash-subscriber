@@ -44,6 +44,7 @@ type Group struct {
 type Subscribe struct {
 	Name        string
 	URL         string
+	Convert     bool
 	IgnoreChars []string
 	FilterChars []string
 	Proxies     []Proxy

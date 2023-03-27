@@ -1,9 +1,12 @@
 package source
 
 import (
+	"bytes"
+	"encoding/base64"
 	"fmt"
 	"log"
 	"multi-clash-subscriber/config"
+	"multi-clash-subscriber/internal/converter"
 	"multi-clash-subscriber/utils"
 	"net/url"
 	"strconv"
@@ -24,13 +27,18 @@ func New(subscribe *config.Subscribe) *Subscribe {
 }
 
 func (c *Subscribe) Parse() error {
+	data, err := c.download()
+	if err != nil {
+		return err
+	}
 
-	clash, err := c.download()
+	clash, err := c.toClash(data)
 	if err != nil {
 		return err
 	}
 
 	c.subscribe.Proxies = c.filterProxies(clash.Proxies)
+
 	return nil
 }
 
@@ -47,7 +55,7 @@ func (c *Subscribe) parseURL(str string) string {
 }
 
 // Download the file from the url
-func (c *Subscribe) download() (*config.Clash, error) {
+func (c *Subscribe) download() ([]byte, error) {
 	client := req.C()
 	// client.DevMode()
 	url := c.parseURL(c.subscribe.URL)
@@ -68,15 +76,44 @@ func (c *Subscribe) download() (*config.Clash, error) {
 			return nil, errors.New("traffic used up to limit: " + c.subscribe.Name)
 		}
 	}
+	defer req.Body.Close()
 
+	return req.Bytes(), nil
+}
+
+func (c *Subscribe) toClash(data []byte) (*config.Clash, error) {
 	var result config.Clash
-	err = yaml.Unmarshal(req.Bytes(), &result)
+
+	if c.subscribe.Convert {
+		// base64 decode
+		data, err := base64.StdEncoding.DecodeString(string(data))
+		if err != nil {
+			return nil, err
+		}
+		dataItems := bytes.Split(data, []byte("\n"))
+
+		for _, item := range dataItems {
+			if len(item) == 0 {
+				continue
+			}
+
+			proxy, err := converter.FromString(string(item))
+			if err != nil {
+				log.Println("ERR: ", err, ", raw: ", string(item))
+				continue
+			}
+			result.Proxies = append(result.Proxies, proxy)
+		}
+
+		return &result, nil
+	}
+
+	err := yaml.Unmarshal(data, &result)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to unmarshal the config: %s", c.subscribe.URL)
 	}
 
 	return &result, nil
-
 }
 
 // parseUserInfo parse userinfo from header upload=4576337548; download=6582828335; total=107374182400; expire=1680492220

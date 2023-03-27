@@ -20,6 +20,7 @@ Name="Walless"
 URL="xxxx"
 IgnoreChars = ["菲律宾100倍扣流量","阿根廷"]
 FilterChars=["{emoji}","{space}"]
+Convert = false
 
 
 [[Groups]]

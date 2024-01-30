@@ -4,6 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"log"
 	"os"
 
 	"multi-clash-subscriber/config"
@@ -22,14 +23,19 @@ var rootCmd = &cobra.Command{
 	SilenceUsage: true,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		viper.SetConfigType("toml")
-		viper.SetConfigFile(cfgFile)
+		if cfgFile == "" {
+			viper.SetConfigName("config.toml")
+		} else {
+			viper.SetConfigFile(cfgFile)
+		}
 
 		wd, err := os.Getwd()
 		if err != nil {
 			return errors.Wrap(err, "get work dir failed")
 		}
-
+		log.Printf("add config path: %s", wd+"/conf/")
 		viper.AddConfigPath(wd + "/conf/")
+		return errors.New("123")
 
 		if err := viper.ReadInConfig(); err != nil {
 			return errors.Wrap(err, "read in config failed")

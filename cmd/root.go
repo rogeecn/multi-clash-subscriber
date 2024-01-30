@@ -4,8 +4,9 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"multi-clash-subscriber/config"
 	"os"
+
+	"multi-clash-subscriber/config"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -28,7 +29,7 @@ var rootCmd = &cobra.Command{
 			return errors.Wrap(err, "get work dir failed")
 		}
 
-		viper.AddConfigPath(wd)
+		viper.AddConfigPath(wd + "/conf/")
 
 		if err := viper.ReadInConfig(); err != nil {
 			return errors.Wrap(err, "read in config failed")

@@ -35,7 +35,6 @@ var rootCmd = &cobra.Command{
 		}
 		log.Printf("add config path: %s", wd+"/conf/")
 		viper.AddConfigPath(wd + "/conf/")
-		return errors.New("123")
 
 		if err := viper.ReadInConfig(); err != nil {
 			return errors.Wrap(err, "read in config failed")
@@ -60,6 +59,6 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "config.toml", "config file")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

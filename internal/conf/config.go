@@ -2,9 +2,10 @@ package conf
 
 import (
 	"log"
+	"os"
+
 	"multi-clash-subscriber/config"
 	"multi-clash-subscriber/internal/source"
-	"os"
 
 	"golang.org/x/sync/errgroup"
 )
